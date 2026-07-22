@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCS — Framer Changelog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --line: #e0e0dc;
+    --ink: #1a1a18;
+    --ink-dim: #6b6b66;
+    --mono: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    /* type scale: display / title / body 15px / meta 12px mono */
+    --text-body: 15px;
+    --text-meta: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--text-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 24px 120px;
+  }
+  .meta {
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+    color: var(--ink-dim);
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  /* Header */
+  header {
+    padding: 72px 0 40px;
+  }
+  h1 {
+    font-size: clamp(34px, 6vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+  h1 .site, h1 a.site {
+    color: var(--ink-dim);
+    font-weight: 400;
+    text-decoration: none;
+  }
+  h1 a.site:hover { color: var(--ink); }
+  h1 a.site svg {
+    width: 0.72em; height: 0.72em;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    margin-left: 0.12em;
+    vertical-align: baseline;
+  }
+  .sub {
+    margin-top: 18px;
+    color: var(--ink-dim);
+    max-width: 560px;
+  }
+
+  /* Day sections */
+  .day { padding: 48px 0; border-bottom: 1px solid var(--line); }
+  .day:last-of-type { border-bottom: none; }
+  .day-title { font-size: 24px; font-weight: 650; letter-spacing: -0.02em; }
+
+  /* Logs within a day */
+  .log { padding-top: 32px; }
+  .log-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .log-time { font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
+  .branch {
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+    color: var(--ink-dim);
+    white-space: nowrap;
+  }
+  .branch::before { content: "⑂ "; }
+
+  /* Per-entry totals chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 28px; }
+  .chip {
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+    color: var(--ink-dim);
+  }
+  .chip b { color: var(--ink); font-weight: 500; }
+
+  /* Change groups */
+  .group { margin-bottom: 26px; }
+  .group:last-child { margin-bottom: 0; }
+  .group-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+    color: var(--ink-dim);
+  }
+
+  ul.items { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  ul.items li {
+    position: relative;
+    padding-left: 30px;
+  }
+  ul.items li::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 9px;
+    width: 6px; height: 6px;
+    border-radius: 2px;
+  }
+  .group.removed li::before { background: var(--ink); }
+  .group.changed li::before { background: var(--ink-dim); }
+  .group.added   li::before { background: transparent; border: 1.5px solid var(--ink); left: 7px; top: 8px; }
+  ul.items li .scope {
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+    color: var(--ink-dim);
+  }
+  ul.items li .note {
+    display: block;
+    color: var(--ink-dim);
+    margin-top: 3px;
+  }
+  ul.items li .bp {
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+    color: var(--ink-dim);
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  ul.items li .bp::before { content: "· "; }
+
+  .footnote {
+    margin-top: 24px;
+    padding: 2px 0 2px 16px;
+    border-left: 2px solid var(--line);
+    color: var(--ink-dim);
+  }
+
+  @media (max-width: 560px) {
+    body { padding: 0 18px 80px; }
+    header { padding: 48px 0 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Changelog<br><a class="site" href="https://thecreativesolution.ca" target="_blank" rel="noopener">thecreativesolution.ca<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></h1>
+    <p class="sub">A running record of what ships to the site. Each entry is one merged Framer branch — condensed from the field-level export, newest first.</p>
+    <p class="meta" style="margin-top: 24px;">Entries logged: 4</p>
+  </header>
+
+  <!-- Day section: one .day per date, one .log per merge; newest first -->
+  <section class="day">
+    <h2 class="day-title">Jul 22, 2026</h2>
+
+    <article class="log">
+      <div class="log-head">
+        <h3 class="log-time">3:33 p.m.</h3>
+        <span class="branch">week-sprint</span>
+      </div>
+
+      <div class="chips">
+        <span class="chip"><b>1</b> content tree rebuilt across <b>4</b> breakpoints</span>
+      </div>
+
+      <!-- CHANGED -->
+      <div class="group changed">
+        <span class="group-label changed">Changed</span>
+        <ul class="items">
+          <li>
+            <span class="scope">About · Who we love working with</span> — adjusted card sizes, image sizing within the cards, and responsiveness across breakpoints
+          </li>
+        </ul>
+      </div>
+
+    </article>
+
+    <article class="log">
+      <div class="log-head">
+        <h3 class="log-time">11:40 a.m.</h3>
+        <span class="branch">week-sprint</span>
+      </div>
+
+    <div class="chips">
+      <span class="chip"><b>1</b> media swap</span>
+      <span class="chip"><b>4</b> responsive wrapper updates</span>
+    </div>
+
+    <!-- ADDED -->
+    <div class="group added">
+      <span class="group-label added">Added</span>
+      <ul class="items">
+        <li>
+          <span class="scope">About</span> — replacement muted, looping YouTube embed with a new video source
+          <span class="note">Keeps the same 16px corner treatment, medium-quality thumbnail, and ~16:9 presentation as before.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- REMOVED -->
+    <div class="group removed">
+      <span class="group-label removed">Removed</span>
+      <ul class="items">
+        <li>
+          <span class="scope">About</span> — animated TCS LinkedIn post graphic
+        </li>
+        <li>
+          <span class="scope">About</span> — previous muted, looping YouTube embed
+        </li>
+      </ul>
+    </div>
+
+    <!-- CHANGED -->
+    <div class="group changed">
+      <span class="group-label changed">Changed</span>
+      <ul class="items">
+        <li>
+          <span class="scope">About · intro text</span> — width constraint moved from the heading and paragraph to their shared Intro Text wrapper
+          <span class="note">Wrapper now caps at 800px on desktop, tablet, and phone, 900px on wide desktop; the heading and paragraph inherit it instead of setting their own 800px limits.</span>
+        </li>
+      </ul>
+    </div>
+
+    </article>
+  </section>
+
+  <section class="day">
+    <h2 class="day-title">Jul 21, 2026</h2>
+
+    <article class="log">
+      <div class="log-head">
+        <h3 class="log-time">2:42 p.m.</h3>
+        <span class="branch">week-sprint-jul-2026</span>
+      </div>
+
+    <div class="chips">
+      <span class="chip"><b>2</b> collection fields added</span>
+      <span class="chip"><b>20</b> reference values across <b>10</b> entries</span>
+      <span class="chip"><b>1</b> code module changed</span>
+    </div>
+
+    <!-- ADDED -->
+    <div class="group added">
+      <span class="group-label added">Added</span>
+      <ul class="items">
+        <li>
+          <span class="scope">Work CMS · schema</span> — two required single-reference fields: <b>Related Work 1</b> and <b>Related Work 2</b>
+          <span class="note">Both point to other entries within the Work collection.</span>
+        </li>
+        <li>
+          <span class="scope">Work CMS · assignments</span> — populated related-work references across 10 Work entries (20 values)
+          <span class="note">Kumo 99 → Capy AI + Cansbridge Scholars. Cansbridge Scholars → Kumo 99 + Capy AI. Defined Capital, Chinatown Vintage Store, V2, Wayble, CaterDash, Pear Youth Creator Social, and Paramatma At-Home Wellness all → Kumo 99 + Capy AI.</span>
+        </li>
+        <li>
+          <span class="scope">Code</span> — new <span class="scope">HideCurrentWorkCard</span> override available on the branch
+        </li>
+      </ul>
+    </div>
+
+    <!-- CHANGED -->
+    <div class="group changed">
+      <span class="group-label changed">Changed</span>
+      <ul class="items">
+        <li>
+          <span class="scope">Social links</span> — removed <b>Behance</b>, added <b>X</b>
+        </li>
+        <li>
+          <span class="scope">Code</span> — <span class="scope">Examples.tsx</span> modified on the branch
+        </li>
+      </ul>
+    </div>
+
+    </article>
+
+    <article class="log">
+      <div class="log-head">
+        <h3 class="log-time">11:48 a.m.</h3>
+        <span class="branch">week-sprint-jul-2026</span>
+      </div>
+
+    <div class="chips">
+      <span class="chip"><b>15</b> layers removed</span>
+      <span class="chip"><b>7</b> field diffs</span>
+      <span class="chip"><b>1</b> component branch-modified</span>
+    </div>
+
+    <!-- REMOVED -->
+    <div class="group removed">
+      <span class="group-label removed">Removed</span>
+      <ul class="items">
+        <li>
+          <span class="scope">Footer</span> — dropped the scrolling service ticker across breakpoints
+          <span class="bp">desktop</span><span class="bp">tablet</span><span class="bp">phone</span>
+          <span class="note">Was cycling 24 service labels (Website Design, Branding, Motion Graphics, Custom Music, and others).</span>
+        </li>
+        <li>
+          <span class="scope">Home</span> — removed the three-metric stat strip
+          <span class="bp">all + wide</span>
+          <span class="note">Retired the “100% WoM Clientele”, “NPS 84”, and “12 Ambitious Creatives” metrics.</span>
+        </li>
+        <li>
+          <span class="scope">About</span> — pulled the embedded YouTube video from the main content
+          <span class="bp">all + wide</span>
+          <span class="note">Was muted, looping, medium-quality thumbnail.</span>
+        </li>
+        <li>
+          <span class="scope">Work</span> — removed the “We care for all our deliverables.” portfolio section
+          <span class="bp">all + wide</span>
+          <span class="note">Listed Leaders of Today, Job Buddy, Cansbridge Fellowship, Hemlock Court Holdings, Wolf Scholars, SFU Dance, Light Up Chinatown, Prequel Schools, and Rod Chow.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CHANGED -->
+    <div class="group changed">
+      <span class="group-label changed">Changed</span>
+      <ul class="items">
+        <li>
+          <span class="scope">Navigation</span> — hid the <b>Innovation</b> and <b>Resources</b> pages
+        </li>
+        <li>
+          <span class="scope">Project bottom cards</span> — standard + hover links no longer open in a new tab
+        </li>
+        <li>
+          <span class="scope">Work collection</span> — homepage visibility toggled off for <b>V2</b> and <b>Wayble</b>
+        </li>
+        <li>
+          <span class="scope">Work collection</span> — <b>Defined Capital</b> set to hidden, <b>Chinatown Vintage Store</b> set to shown (both were unset on the compared branch)
+        </li>
+      </ul>
+    </div>
+
+    </article>
+  </section>
+
+</div>
+</body>
+</html>
