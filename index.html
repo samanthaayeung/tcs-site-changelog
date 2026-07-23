@@ -133,7 +133,7 @@
   .group.added   li::before { background: transparent; border: 1.5px solid var(--ink); left: 7px; top: 8px; }
   ul.items li .scope {
     font-family: var(--mono);
-    font-size: var(--text-meta);
+    font-size: var(--text-body);
     color: var(--ink-dim);
   }
   ul.items li .note {
@@ -169,10 +169,72 @@
   <header>
     <h1>Changelog<br><a class="site" href="https://thecreativesolution.ca" target="_blank" rel="noopener">thecreativesolution.ca<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></h1>
     <p class="sub">A running record of what ships to the site. Each entry is one merged Framer branch — condensed from the field-level export, newest first.</p>
-    <p class="meta" style="margin-top: 24px;">Entries logged: 4</p>
+    <p class="meta" style="margin-top: 24px;">Entries logged: 5</p>
   </header>
 
   <!-- Day section: one .day per date, one .log per merge; newest first -->
+  <section class="day">
+    <h2 class="day-title">Jul 23, 2026</h2>
+
+    <article class="log">
+      <div class="log-head">
+        <h3 class="log-time">1:47 a.m.</h3>
+        <span class="branch">week-sprint</span>
+      </div>
+
+      <div class="chips">
+        <span class="chip"><b>8</b> areas changed against main</span>
+        <span class="chip"><b>1</b> route renamed</span>
+      </div>
+
+      <!-- ADDED -->
+      <div class="group added">
+        <span class="group-label added">Added</span>
+        <ul class="items">
+          <li>
+            <span class="scope">Services</span> — new Services page replacing the former Offerings route, with the original page metadata preserved
+          </li>
+          <li>
+            <span class="scope">Interest Form</span> — multi-option service selection and auto-growing message fields
+          </li>
+        </ul>
+      </div>
+
+      <!-- CHANGED -->
+      <div class="group changed">
+        <span class="group-label changed">Changed</span>
+        <ul class="items">
+          <li>
+            <span class="scope">Navigation</span> — renamed the <b>Offerings</b> route to <b>Services</b> and repointed internal nav destinations to it
+            <span class="note">Also refined the responsive tablet and phone nav states and updated the responsive nav background treatments.</span>
+          </li>
+          <li>
+            <span class="scope">About</span> — rebuilt the inner content hierarchy across breakpoints
+            <span class="bp">all + wide</span>
+            <span class="note">Structural rebuild rather than a single isolated content edit.</span>
+          </li>
+          <li>
+            <span class="scope">Contact</span> — switched to the redesigned interest form and shifted desktop content toward an end-aligned layout
+          </li>
+          <li>
+            <span class="scope">Interest Form</span> — reworked the form structure and flow, and revised the success messaging
+          </li>
+          <li>
+            <span class="scope">Form Button</span> — sized to its natural content width and updated the Success-state label
+          </li>
+          <li>
+            <span class="scope">Project bottom cards</span> — desktop card height increased to 500px
+          </li>
+          <li>
+            <span class="scope">Code · Examples</span> — supporting examples/override file modified on the branch
+            <span class="note">Review the exact source-level delta in the code editor before merging if it affects production interactions.</span>
+          </li>
+        </ul>
+      </div>
+
+    </article>
+  </section>
+
   <section class="day">
     <h2 class="day-title">Jul 22, 2026</h2>
 
