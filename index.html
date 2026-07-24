@@ -169,10 +169,64 @@
   <header>
     <h1>Changelog<br><a class="site" href="https://thecreativesolution.ca" target="_blank" rel="noopener">thecreativesolution.ca<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></h1>
     <p class="sub">A running record of what ships to the site. Each entry is one merged Framer branch — condensed from the field-level export, newest first.</p>
-    <p class="meta" style="margin-top: 24px;">Entries logged: 5</p>
+    <p class="meta" style="margin-top: 24px;">Entries logged: 6</p>
   </header>
 
   <!-- Day section: one .day per date, one .log per merge; newest first -->
+  <section class="day">
+    <h2 class="day-title">Jul 24, 2026</h2>
+
+    <article class="log">
+      <div class="log-head">
+        <h3 class="log-time">12:24 p.m.</h3>
+        <span class="branch">week-sprint</span>
+      </div>
+
+      <div class="chips">
+        <span class="chip"><b>4</b> areas changed against main</span>
+        <span class="chip"><b>1</b> code component added</span>
+      </div>
+
+      <!-- ADDED -->
+      <div class="group added">
+        <span class="group-label added">Added</span>
+        <ul class="items">
+          <li>
+            <span class="scope">Home</span> — hidden <b>TCS Ambitions Banner</b>: full-width, soft blue-to-white gradient with rounded lower corners
+            <span class="note">Set to reveal on scroll direction when the banner is enabled.</span>
+          </li>
+          <li>
+            <span class="scope">Code · Controlled YouTube Player</span> — new configurable YouTube player component
+            <span class="note">16:9 with adjustable corner radius; autoplays from a set start time with native YouTube, keyboard, and fullscreen controls hidden. Adds a custom upper-right mute pill (enabled once the player is ready) with configurable muted / unmuted labels. Editable controls: Video ID, start time, initial mute, corner radius, and both labels.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- CHANGED -->
+      <div class="group changed">
+        <span class="group-label changed">Changed</span>
+        <ul class="items">
+          <li>
+            <span class="scope">About</span> — refined vertical spacing and gutters across breakpoints
+            <span class="bp">all + wide</span>
+            <span class="note">Keeps the shared fixed navigation and footer; “Always in Pursuit” page metadata unchanged.</span>
+          </li>
+          <li>
+            <span class="scope">Home</span> — updated responsive content pacing across breakpoints
+            <span class="bp">all + wide</span>
+            <span class="note">Larger vertical rhythm on desktop and wide; tighter spacing on tablet and phone.</span>
+          </li>
+          <li>
+            <span class="scope">Contact</span> — refined responsive spacing of the core content region across breakpoints
+            <span class="bp">all + wide</span>
+            <span class="note">More open on desktop and wide; reduced on tablet; compact with mobile gutters on phone. Bespoke-design contact metadata unchanged.</span>
+          </li>
+        </ul>
+      </div>
+
+    </article>
+  </section>
+
   <section class="day">
     <h2 class="day-title">Jul 23, 2026</h2>
 
